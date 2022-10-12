@@ -1,0 +1,172 @@
+﻿@{
+    ViewData["Title"] = "Data Laptops";
+}
+
+<style>
+    .bgOn {
+        background-color: rgba(130, 205, 55, 0.39) !important;
+    }
+
+    .bgOnCol {
+        background-color: white !important;
+    }
+
+    .bgOff {
+        background-color: rgba(255, 0, 0, 0.2) !important;
+    }
+</style>
+
+
+<div class="form-group" style="float:right">
+    <input type="checkbox" id="checkDeleted">
+    <label for="checkDeleted" class="control-label">Show Deleted Category</label>
+</div>
+
+<table id="browseGridData" class="table table-bordered table-hover dt-responsive nowrap" cellspacing="0" style="overflow-x:scroll">
+    <thead>
+        <tr>
+            <th><a class="btn btn-success btn-sm btn-flat" href="@(Url.Action("Editor", "DataLaptop"))?mode=Create"><i class="fa fa-plus"></i> Create</a></th>
+            <th>Brand</th>
+            <th>Type</th>
+            <th>Currency</th>
+            <th>Price</th>
+            <th>Created By</th>
+            <th>Created Date</th>
+            <th>Edited By</th>
+            <th>Edited Date</th>
+            <th>Deleted By</th>
+            <th>Deleted Date</th>
+        </tr>
+    </thead>
+    <tfoot>
+        <tr>
+            <th>Press enter<br />after typing<br />to filter</th>
+            <th>Brand</th>
+            <th>Type</th>
+            <th>Currency</th>
+            <th>Price</th>
+            <th>Created By</th>
+            <th>Created Date</th>
+            <th>Edited By</th>
+            <th>Edited Date</th>
+            <th>Deleted By</th>
+            <th>Deleted Date</th>
+        </tr>
+    </tfoot>
+</table>
+
+<script>
+    $(document).ready(function () {
+       $('#browseGridData tfoot th').each(function (i) {
+            if (i != 0) {
+                var title = $(this).text();
+                $(this).html('<tr><th><input type="text" name="filter[' + i + ']" placeholder="Search ' + title + '" /><th>');
+            }
+       });
+
+        var table = $("#browseGridData").DataTable({
+            "bFilter" : false,
+            "processing": true,
+            "serverSide": true,
+            "filter": true,
+            "orderMulti": true,
+            "scrollX": true,
+            "stateDuration": -1,
+            "stateSave": true,
+            "paging": true,
+            "pagingType": "full_numbers",
+            "ajax": {
+                "url": '@Url.Action("LoadData", "DataLaptop")',
+                "type": "POST",
+                "datatype": "json",
+                "data": function (params) {
+                    params.showDeleted = $("#checkDeleted").prop('checked');
+                    $(params.columns).each(function (i) {
+                        var name = "filter[" + i + "]";
+                        var value = "";
+                        if ($('input[name="' + name + '"]').last().length) {
+                            value = $('input[name="' + name + '"]').last().val();
+                        }
+                        params[name] = value;
+                    });
+                    return params;
+                }
+            },
+            "order": [[1, "asc"], [2, "asc"]],
+            "columnDefs":[
+                 {
+                     "targets": [0],
+                     "orderable": false
+                 },
+            ],
+
+            "columns": [
+                {
+                    "render": function (data, type, full, meta) {
+                        var buttons = '';
+                        buttons += '<a class="btn btn-default btn-xs btn-flat" title="View" name="btn_view" href="@Url.Action("Editor", "DataLaptop")?mode=View&uniq=' + full.Uniq + '"><i class="fa fa-search"></i></a>&nbsp;';
+                        if (!full.Is_Deleted) {
+                            buttons += '<a class="btn btn-success btn-xs btn-flat" title="Edit" name="btn_edit" href="@Url.Action("Editor", "DataLaptop")?mode=Edit&uniq=' + full.Uniq + '"><i class="fa fa-pencil"></i></a>&nbsp;';
+                            buttons += '<a class="btn btn-danger btn-xs btn-flat" title="Delete" name="btn_delete" href="@Url.Action("Editor", "DataLaptop")?mode=Delete&uniq=' + full.Uniq + '"><i class="fa fa-trash"></i></a>&nbsp;';
+                        }
+                        return buttons;
+                    },
+                    "width": "10%",
+                },
+                { "data": "Laptop_Brand", "name": "Laptop_Brand", "autoWidth": true },
+                { "data": "Laptop_Type", "name": "Laptop_Type", "autoWidth": true },
+                { "data": "Currency", "name": "Currency", "autoWidth": true },
+                { "data": "Price", "name": "Price", "autoWidth": true },
+                { "data": "Create_By", "name": "Create_By", "autoWidth": true },
+                { "data": "Create_Date", "name": "Create_Date", "autoWidth": true },
+                { "data": "Edit_By", "name": "Edit_By", "autoWidth": true },
+                { "data": "Edit_Date", "name": "Edit_Date", "autoWidth": true },
+                { "data": "Delete_By", "name": "Delete_By", "autoWidth": true },
+                { "data": "Delete_Date", "name": "Delete_Date", "autoWidth": true },
+            ],
+            "createdRow": function (row, data, index) {
+                if (data.Is_Deleted) {
+                    $(row).addClass('bgOff');
+                    $($(row).find('td')[0]).removeClass('bgOn').addClass('bgOnCol');
+                }
+            },
+            "fixedColumns": {
+                leftColumns : 1
+            },
+            "stateSaveParams": function (settings, data) {
+                var temp = {};
+                var inputs = $("input", table.columns().footer());
+                $(inputs).each(function (n, el) {
+                    temp[$(this).attr('name')] = this.value;
+                });
+                data.colsFilter = temp;
+            },
+            "stateLoadParams": function (e, settings, data) {
+                var a = $(this);
+                if (settings != undefined && settings.colsFilter != undefined) {
+                    var value = "";
+                    $.each(settings.colsFilter, function (key, val) {
+                        $("input[name='" + key + "']", a.DataTable().columns().footer()).val(val);
+                    });
+                }
+            }
+
+        });
+        table.columns().every(function () {
+            var that = this;
+            $('input', this.footer()).on('keyup change', function (e) {
+                if (e.keyCode == 13) {
+                    that
+                        .search(this.value)
+                        .draw();
+                }
+            });
+        });
+
+        $("#checkDeleted").change(function () {
+            table.ajax.reload();
+        })
+        $(".dataTables_length").attr("style", "display:none");
+    });
+</script>
+<div class="clearfix"></div>

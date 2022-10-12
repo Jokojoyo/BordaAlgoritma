@@ -1,0 +1,360 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/favicon.ico" rel="icon" type="image/ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title - Borda Algorithm</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @Styles.Render("~/adminlte/css")
+    @Scripts.Render("~/adminlte/js")
+    @Scripts.Render("~/bundles/bootbox")
+    @Styles.Render("~/css/my")
+    @RenderSection("scripts", required: false)
+
+    <style type="text/css">
+        .no-js #loader {
+            display: none;
+        }
+        .js #loader {
+            display: block;
+            position: absolute;
+            left: 100px;
+            top: 0;
+        }
+        .sidebar-mini.sidebar-collapse .main-sidebar{
+            width:67px !important
+        }
+        .se-pre-con {
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url(@Url.Content("~/Media/preloader/images/loader-128x/Preloader_2.gif")) center no-repeat #fff;
+            opacity: 0.8;
+        }
+    </style>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('a[href$="/@ViewContext.RouteData.Values["controller"]/@ViewContext.RouteData.Values["action"]"').addClass('active').parents('li').addClass('active');
+            $('a[href$="/@ViewContext.RouteData.Values["controller"]').addClass('active').parents('li').addClass('active');
+            $(".datepicker").datepicker({
+                format: 'yyyy-mm-dd',
+                autoclose: true
+            });
+            $(".timepicker").timepicker({
+                showInputs: false
+            });
+
+            //$(".daterange").daterangepicker({
+            //    showDropdowns: true,
+            //    locale: {
+            //        format: 'DD/MM/YYYY'
+            //    }
+            //});
+
+            $(".select2").select2({
+                placeholder: "Select an item",
+                allowClear: true
+            });
+            $(".money").number(true, 0, '.', ',');
+            $(".num").number(true, 2, '.', ',');
+            $(".num0").number(true, 0, '.', ',');
+            $(".num3").number(true, 3, '.', ',');
+            $("a[href*='/'][target!='_blank'][class!='no-preloader']").on("click", function (e) {
+                if (!e.ctrlKey && ($(this).data('target') != "_blank")) {
+                    $(".se-pre-con").fadeIn("fast");
+                }
+            });
+            $('form').on("submit", function () {
+                $(".se-pre-con").fadeIn("fast");
+            });
+        });
+        $(window).on('load', function () {
+            $(".se-pre-con").fadeOut("slow");
+        });
+
+        function InitAjaxSelect2(el, ajaxURL, dataCB, minLength) {
+            minLength = minLength || 3;
+            if (minLength == -1) minLength = 0;
+            el.select2({
+                placeholder: "- Please select -",
+                minimumInputLength: minLength,
+                allowClear: true,
+                ajax: {
+                    url: ajaxURL,
+                    width: 'resolve',
+                    data: function (params) {
+                        return $.extend({ q: params }, (dataCB()))
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.items
+                        };
+                    },
+                    minimumInputLength: minLength,
+                    width: 'resolve'
+                },
+                initSelection: function (element, callback) {
+                    var id = $(element).val();
+                    if (id) {
+                        ajaxData = $.extend({ q: id, init: true }, (dataCB()))
+                        $.ajax({
+                            url: ajaxURL,
+                            type: "POST",
+                            datatype: "json",
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify(ajaxData),
+                            success: function (response) {
+                                var data = response.items;
+                                if (data) {
+                                    result = data;
+                                }
+                            },
+                            fail: function () {
+                            }
+                        }).done(function (data) {
+                            if(data && data.items && data.items.length > 0)
+                                callback(data.items[0]);
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body class="hold-transition skin-purple sidebar-mini">
+    <script>
+        (function () {
+            if (Boolean(sessionStorage.getItem('sidebar-toggle-collapsed'))) {
+                var body = document.getElementsByTagName('body')[0];
+                body.className = body.className + ' sidebar-collapse';
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header class="main-header">
+            <a href='@Url.Action("Index", "Home")' class="logo">
+                <span class="logo-mini"><i class="fa fa-globe"></i></span>
+                <span class="logo-sm"><b>Borda</b> Algorithm</span>
+            </a>
+            <nav class="navbar navbar-static-top" role="navigation">
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-user-circle"></i>
+                                <span class="hidden-xs">@User.Identity.GetUserDataByKey("Name")</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="user-body">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p style="text-align: center">
+                                                <i class="fa fa-2x fa-user-circle"></i>
+                                            </p>
+                                            <p style="text-align: center">
+                                                @User.Identity.GetUserDataByKey("Name")
+                                            </p>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <button type="button" class="btn btn-primary btn-flat" id="btnChangePassword">Change Password</button>
+                                    </div>
+                                    <div class="pull-right">
+                                        @using (Html.BeginForm("LogOff", "Auth", FormMethod.Post, new { id = "logoutForm" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                            <a href="javascript:document.getElementById('logoutForm').submit()" class="btn btn-default btn-flat bg-red">Log off</a>
+                                        }
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <aside class="main-sidebar" style="height:0;overflow-y:scroll">
+            <section class="sidebar">
+                <div class="user-panel">
+                    <div class="col-md-2" style="padding: 2px 5px">
+                        <i class="fa fa-2x fa-user-circle" style="color: white"></i>
+                    </div>
+                    <div class="col-md-10 info" style="padding: 0px 15px; position: relative; left: unset; font-size: 12px">
+                        <p>@User.Identity.GetUserDataByKey("Name")</p>
+                        <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                    </div>
+                </div>
+                <ul class="sidebar-menu" data-widget="tree">
+                    <li class="header">MAIN MENU</li>
+                    <li><a href='@Url.Action("Index", "Home")'><i class="fa fa-tachometer"></i><span>Home</span></a></li>
+                    @if (User.Identity.GetUserDataByKey(Constants.IS_ADMIN) == "1")
+                    {
+                        <li class="treeview">
+                            <a href="#">
+                                <i class="fa fa-database"></i> <span>Master Data</span>
+                                <span class="pull-right-container">
+                                    <i class="fa fa-angle-left pull-right"></i>
+                                </span>
+                            </a>
+                            <ul class="treeview-menu">
+                                <li><a href="@Url.Action("Index","DataLaptop")"><i class="fa fa-desktop"></i> Data Laptop</a></li>
+                                <li><a href="@Url.Action("Index","DataUser")"><i class="fa fa-users"></i> Data Users</a></li>
+                            </ul>
+                        </li>
+                    }
+
+                    <li class="treeview">
+                        <a href='@Url.Action("Index","Catalog")?method=bordaAlgoritma'><i class="fa fa-shopping-bag"></i>Catalog</a>
+                    </li>
+                    <li class="treeview">
+                        <a href='@Url.Action("Index","DataSurvey")'><i class="fa fa-assistive-listening-systems"></i>Survey</a>
+                    </li>
+                </ul>
+            </section>
+        </aside>
+        <div class="content-wrapper">
+            <div class="se-pre-con"></div>
+            @{
+                string actionName = HttpContext.Current.Request.RequestContext.RouteData.Values["action"].ToString();
+                string controllerName = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+                if (actionName.ToLower() == "index" && controllerName.ToLower() == "home")
+                {
+                    @RenderBody()
+                }
+                else
+                {
+                    <section class="content container-fluid">
+                        <div class="box" style="min-height: 250px">
+                            <div class="box-header with-border">
+                                <h4>@ViewBag.Title</h4>
+                            </div>
+                            <div class="box-body" style="min-height: 100%">
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </section>
+                }
+            }
+        </div>
+        <footer class="main-footer">
+            <div class="pull-right hidden-xs">
+                Version <b>1.0</b>
+            </div>
+            <strong>Copyright &copy; @DateTime.Now.Year.ToString() Sangkot Sangkotan</strong> All rights reserved.
+        </footer>
+        <div class="control-sidebar-bg"></div>
+    </div>
+
+    <div id="ModalChangePassword" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-lg">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Change Password</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="changePassOld">Old Password</label>
+                            <div class="col-md-7">
+                                <input type="password" id="changePassOld" name="changePassOld" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="changePassNew">New Password</label>
+                            <div class="col-md-7">
+                                <input type="password" id="changePassNew" name="changePassNew" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3" for="changePassConfirm">Confirm New Password</label>
+                            <div class="col-md-7">
+                                <input type="password" id="changePassConfirm" name="changePassConfirm" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary btn-flat" id="btnConfirmChangePassword">Change Password</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <script>
+        $('.sidebar-toggle').click(function (event) {
+            event.preventDefault();
+            if (Boolean(sessionStorage.getItem('sidebar-toggle-collapsed'))) {
+                sessionStorage.setItem('sidebar-toggle-collapsed', '');
+            } else {
+                sessionStorage.setItem('sidebar-toggle-collapsed', '1');
+            }
+        });
+        $("#btnChangePassword").click(function () {
+            $("#changePassOld").val("");
+            $("#changePassNew").val("");
+            $("#changePassConfirm").val("");
+
+            $("#ModalChangePassword").modal("show");
+
+        });
+
+        $("#btnConfirmChangePassword").click(function () {
+            var oldPassword = $("#changePassOld").val();
+            var newPassword = $("#changePassNew").val();
+            var confirmPassword = $("#changePassConfirm").val();
+
+            if (!oldPassword) {
+                alert("Old Password is required");
+                return;
+            }
+
+            if (!newPassword) {
+                alert("New Password is required");
+                return;
+            }
+
+            if (!confirmPassword) {
+                alert("Confirm Password is required");
+                return;
+            }
+
+            if (newPassword != confirmPassword) {
+                alert("Confirm Password is different from New Password");
+                return;
+            }
+
+            var data = {
+                old_password: oldPassword,
+                new_password: newPassword,
+                confirm_password: confirmPassword
+            };
+
+            $.post("@Url.Action("ChangePassword", "Auth")", data, function (response) {
+                alert(response.message);
+
+                if (response.success) {
+                    $("#ModalChangePassword").modal("hide");
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

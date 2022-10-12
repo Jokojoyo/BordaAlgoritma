@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+@using BordaAlgorithm.Models;
+@using Newtonsoft.Json;
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<style type="text/css">
+    td > .two-decimals, .four-decimals {
+        min-width: 70px !important;
+    }
+
+    th {
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    td {
+        vertical-align: middle;
+        text-align: center;
+        padding: 0px !important;
+    }
+
+        td > .form-control {
+            border-color: transparent;
+        }
+
+    h4 {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+
+    .form-group {
+        margin-bottom: 2px !important;
+    }
+
+    .control-label {
+        padding-top: 3px !important;
+    }
+
+    .input-sm {
+        height: 25px !important;
+    }
+
+    .input-group-addon {
+        padding: 3px 8px !important;
+        min-width: 35px;
+    }
+
+    .select2-container.input-sm .select2-choice, .input-group-sm .select2-container .select2-choice {
+        height: 27px !important;
+    }
+
+    .box-body, .box-header {
+        padding-top: 5px;
+        padding-bottom: 3px;
+    }
+</style>
+
+<section class="content-header">
+    <h1>
+        Borda Algorithm System
+        <small>Version 1.0 </small>
+    </h1>
+</section>
+
+<section class="content">
+    <div class="nav-tabs-custom">
+        <ul class="nav nav-tabs">
+            <li class="tab1"><a href="#tab_1" data-toggle="tab">Main Priority Chart</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="tab_1">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="box box-success">
+                            <div class="box-header with-border">
+                                <h4 class="box-title2" style="display: inline;">
+                                    Main Priority Chart
+                                </h4>
+                            </div>
+                            <div class="box-body" id="priorityChart">
+                                <canvas id="priority-chart" width="300" height="300" style="width:300px!important; height:300px!important"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    var x = 0;
+    var interval;
+    var timeout;
+    var numberOfDays = 0;
+
+    $(document).ready(function () {
+        Object.defineProperty(WebSocket, 'OPEN', { value: 1, });
+
+        if ($('#tab_1').length) {
+            GeneratePriorityChart();
+            $('.tab1').addClass('active');
+        }
+        else if ($('#tab_2').length) {
+            GenerateSecondPriorityChart();
+            $('.tab2').addClass('active');
+        }
+    });
+
+    function GeneratePriorityChart() {
+        $('#priority-chart').remove();
+        $('#priorityChart').append('<canvas id="priority-chart" width="300" height="300" style="width:300px!important; height:300px!important"><canvas>');
+        /*var a = { label: "Approved", backgroundColor: "rgba(68,114,196,0.7)", data : [13, 21, 6, 3]}*/
+        $.ajax({
+            url: '@Url.Action("PriorityChart", "Home")',
+            type: "GET",
+            datatype: "json",
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            success: function (response) {
+                debugger;
+                if (response) {
+                    debugger;
+                    var ctx = $("#priority-chart");
+                    var data_ = {
+                        labels: response.labels,
+                        datasets: response.data
+                    }
+
+                    var options = {
+                        scales: {
+                            yAxes: {
+                                grid: { display: false },
+                                title: {
+                                    display: true,
+                                    text: "Total Vote",
+                                    font: {
+                                        size: 15
+                                    }
+                                },
+                                ticks: {
+                                    precision: 0
+                                }
+                            }
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false
+                    };
+
+                    var dailySoundingChart = new Chart(ctx, {
+                        type: 'bar',
+                        data: data_,
+                        options: options
+                    }).update();
+
+
+                }
+            }
+         });
+    }
+
+    function initProgress() {
+        var progress = 0;
+        interval = setInterval(function () {
+            if (progress > 100) progress = 100;
+
+            $("#progress").css("width", progress + "%");
+            progress += 10;
+        }, 900);
+    }
+
+</script>

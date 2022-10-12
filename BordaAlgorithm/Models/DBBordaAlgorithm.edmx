@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DBBordaAlgorithmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Borda_Point">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Main_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Second_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Third_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fourth_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fifth_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Borda_Subject_List">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Subject_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Career_List">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Career_Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Career_Desc" Type="varchar(max)" Nullable="false" />
+          <Property Name="Create_By" Type="varchar" MaxLength="100" />
+          <Property Name="Create_Date" Type="datetime" />
+          <Property Name="Edit_By" Type="varchar" MaxLength="100" />
+          <Property Name="Edit_Date" Type="datetime" />
+          <Property Name="Delete_By" Type="varchar" MaxLength="100" />
+          <Property Name="Delete_Date" Type="datetime" />
+          <Property Name="Is_Deleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="Data_Survey">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Main_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Second_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Third_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fourth_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fifth_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Laptops">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Laptop_Brand" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="Laptop_Type" Type="varchar" MaxLength="350" Nullable="false" />
+          <Property Name="LCD_Height" Type="float" Nullable="false" />
+          <Property Name="LCD_Width" Type="float" Nullable="false" />
+          <Property Name="Ram_Capacity" Type="float" Nullable="false" />
+          <Property Name="Memory_Capacity" Type="float" Nullable="false" />
+          <Property Name="Processor_Speed" Type="float" Nullable="false" />
+          <Property Name="Processor_UOM" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Currency" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Price" Type="float" Nullable="false" />
+          <Property Name="Laptop_Image" Type="varchar(max)" Nullable="false" />
+          <Property Name="Remarks" Type="varchar(max)" />
+          <Property Name="Create_By" Type="varchar" MaxLength="100" />
+          <Property Name="Create_Date" Type="datetime" />
+          <Property Name="Edit_By" Type="varchar" MaxLength="100" />
+          <Property Name="Edit_Date" Type="datetime" />
+          <Property Name="Delete_By" Type="varchar" MaxLength="100" />
+          <Property Name="Delete_Date" Type="datetime" />
+          <Property Name="Is_Deleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="Laptops_Brand_List">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Brand" Type="varchar" MaxLength="250" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Longname" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="Is_Admin" Type="bit" />
+          <Property Name="Career" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Password" Type="varchar(max)" Nullable="false" />
+          <Property Name="Last_Login" Type="datetime" />
+          <Property Name="Create_By" Type="varchar" MaxLength="100" />
+          <Property Name="Create_Date" Type="datetime" />
+          <Property Name="Edit_By" Type="varchar" MaxLength="100" />
+          <Property Name="Edit_Date" Type="datetime" />
+          <Property Name="Delete_By" Type="varchar" MaxLength="100" />
+          <Property Name="Delete_Date" Type="datetime" />
+          <Property Name="Is_Deleted" Type="bit" />
+        </EntityType>
+        <EntityContainer Name="DBBordaAlgorithmModelStoreContainer">
+          <EntitySet Name="Borda_Point" EntityType="Self.Borda_Point" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Borda_Subject_List" EntityType="Self.Borda_Subject_List" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Career_List" EntityType="Self.Career_List" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Data_Survey" EntityType="Self.Data_Survey" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Laptops" EntityType="Self.Laptops" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Laptops_Brand_List" EntityType="Self.Laptops_Brand_List" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBBordaAlgorithmModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DBBordaAlgorithmEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Career_List" EntityType="DBBordaAlgorithmModel.Career_List" />
+          <EntitySet Name="Users" EntityType="DBBordaAlgorithmModel.User" />
+          <EntitySet Name="Laptops" EntityType="DBBordaAlgorithmModel.Laptop" />
+          <EntitySet Name="Laptops_Brand_List" EntityType="DBBordaAlgorithmModel.Laptops_Brand_List" />
+          <EntitySet Name="Borda_Subject_List" EntityType="DBBordaAlgorithmModel.Borda_Subject_List" />
+          <EntitySet Name="Borda_Point" EntityType="DBBordaAlgorithmModel.Borda_Point" />
+          <EntitySet Name="Data_Survey" EntityType="DBBordaAlgorithmModel.Data_Survey" />
+        </EntityContainer>
+        <EntityType Name="Career_List">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Career_Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Career_Desc" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Create_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Create_Date" Type="DateTime" Precision="3" />
+          <Property Name="Edit_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Edit_Date" Type="DateTime" Precision="3" />
+          <Property Name="Delete_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Delete_Date" Type="DateTime" Precision="3" />
+          <Property Name="Is_Deleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Longname" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Is_Admin" Type="Boolean" />
+          <Property Name="Career" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Last_Login" Type="DateTime" Precision="3" />
+          <Property Name="Create_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Create_Date" Type="DateTime" Precision="3" />
+          <Property Name="Edit_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Edit_Date" Type="DateTime" Precision="3" />
+          <Property Name="Delete_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Delete_Date" Type="DateTime" Precision="3" />
+          <Property Name="Is_Deleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Laptop">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Laptop_Brand" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Laptop_Type" Type="String" Nullable="false" MaxLength="350" FixedLength="false" Unicode="false" />
+          <Property Name="LCD_Height" Type="Double" Nullable="false" />
+          <Property Name="LCD_Width" Type="Double" Nullable="false" />
+          <Property Name="Ram_Capacity" Type="Double" Nullable="false" />
+          <Property Name="Memory_Capacity" Type="Double" Nullable="false" />
+          <Property Name="Processor_Speed" Type="Double" Nullable="false" />
+          <Property Name="Processor_UOM" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Currency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Price" Type="Double" Nullable="false" />
+          <Property Name="Laptop_Image" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="Create_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Create_Date" Type="DateTime" Precision="3" />
+          <Property Name="Edit_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Edit_Date" Type="DateTime" Precision="3" />
+          <Property Name="Delete_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Delete_Date" Type="DateTime" Precision="3" />
+          <Property Name="Is_Deleted" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Laptops_Brand_List">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Brand" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Borda_Subject_List">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Subject_Desc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Borda_Point">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Main_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Second_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Third_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fourth_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fifth_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Data_Survey">
+          <Key>
+            <PropertyRef Name="Uniq" />
+          </Key>
+          <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Main_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Second_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Third_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fourth_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Fifth_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBBordaAlgorithmModelStoreContainer" CdmEntityContainer="DBBordaAlgorithmEntities">
+          <EntitySetMapping Name="Career_List">
+            <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Career_List">
+              <MappingFragment StoreEntitySet="Career_List">
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+                <ScalarProperty Name="Delete_Date" ColumnName="Delete_Date" />
+                <ScalarProperty Name="Delete_By" ColumnName="Delete_By" />
+                <ScalarProperty Name="Edit_Date" ColumnName="Edit_Date" />
+                <ScalarProperty Name="Edit_By" ColumnName="Edit_By" />
+                <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+                <ScalarProperty Name="Create_By" ColumnName="Create_By" />
+                <ScalarProperty Name="Career_Desc" ColumnName="Career_Desc" />
+                <ScalarProperty Name="Career_Name" ColumnName="Career_Name" />
+                <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="DBBordaAlgorithmModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+                <ScalarProperty Name="Delete_Date" ColumnName="Delete_Date" />
+                <ScalarProperty Name="Delete_By" ColumnName="Delete_By" />
+                <ScalarProperty Name="Edit_Date" ColumnName="Edit_Date" />
+                <ScalarProperty Name="Edit_By" ColumnName="Edit_By" />
+                <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+                <ScalarProperty Name="Create_By" ColumnName="Create_By" />
+                <ScalarProperty Name="Last_Login" ColumnName="Last_Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Career" ColumnName="Career" />
+                <ScalarProperty Name="Is_Admin" ColumnName="Is_Admin" />
+                <ScalarProperty Name="Longname" ColumnName="Longname" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Laptops">
+            <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Laptop">
+              <MappingFragment StoreEntitySet="Laptops">
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+                <ScalarProperty Name="Delete_Date" ColumnName="Delete_Date" />
+                <ScalarProperty Name="Delete_By" ColumnName="Delete_By" />
+                <ScalarProperty Name="Edit_Date" ColumnName="Edit_Date" />
+                <ScalarProperty Name="Edit_By" ColumnName="Edit_By" />
+                <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+                <ScalarProperty Name="Create_By" ColumnName="Create_By" />
+                <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+                <ScalarProperty Name="Laptop_Image" ColumnName="Laptop_Image" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="Currency" ColumnName="Currency" />
+                <ScalarProperty Name="Processor_UOM" ColumnName="Processor_UOM" />
+                <ScalarProperty Name="Processor_Speed" ColumnName="Processor_Speed" />
+                <ScalarProperty Name="Memory_Capacity" ColumnName="Memory_Capacity" />
+                <ScalarProperty Name="Ram_Capacity" ColumnName="Ram_Capacity" />
+                <ScalarProperty Name="LCD_Width" ColumnName="LCD_Width" />
+                <ScalarProperty Name="LCD_Height" ColumnName="LCD_Height" />
+                <ScalarProperty Name="Laptop_Type" ColumnName="Laptop_Type" />
+                <ScalarProperty Name="Laptop_Brand" ColumnName="Laptop_Brand" />
+                <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Laptops_Brand_List">
+            <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Laptops_Brand_List">
+              <MappingFragment StoreEntitySet="Laptops_Brand_List">
+                <ScalarProperty Name="Brand" ColumnName="Brand" />
+                <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Borda_Subject_List">
+            <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Borda_Subject_List">
+              <MappingFragment StoreEntitySet="Borda_Subject_List">
+                <ScalarProperty Name="Subject_Desc" ColumnName="Subject_Desc" />
+                <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Borda_Point">
+            <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Borda_Point">
+              <MappingFragment StoreEntitySet="Borda_Point">
+                <ScalarProperty Name="Fifth_Priority" ColumnName="Fifth_Priority" />
+                <ScalarProperty Name="Fourth_Priority" ColumnName="Fourth_Priority" />
+                <ScalarProperty Name="Third_Priority" ColumnName="Third_Priority" />
+                <ScalarProperty Name="Second_Priority" ColumnName="Second_Priority" />
+                <ScalarProperty Name="Main_Priority" ColumnName="Main_Priority" />
+                <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Data_Survey">
+            <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Data_Survey">
+              <MappingFragment StoreEntitySet="Data_Survey">
+                <ScalarProperty Name="Fifth_Priority" ColumnName="Fifth_Priority" />
+                <ScalarProperty Name="Fourth_Priority" ColumnName="Fourth_Priority" />
+                <ScalarProperty Name="Third_Priority" ColumnName="Third_Priority" />
+                <ScalarProperty Name="Second_Priority" ColumnName="Second_Priority" />
+                <ScalarProperty Name="Main_Priority" ColumnName="Main_Priority" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

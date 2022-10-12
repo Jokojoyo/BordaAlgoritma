@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBBordaAlgorithmModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="DBBordaAlgorithmEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Career_List" EntityType="DBBordaAlgorithmModel.Career_List" />
+    <EntitySet Name="Users" EntityType="DBBordaAlgorithmModel.User" />
+    <EntitySet Name="Laptops" EntityType="DBBordaAlgorithmModel.Laptop" />
+    <EntitySet Name="Laptops_Brand_List" EntityType="DBBordaAlgorithmModel.Laptops_Brand_List" />
+    <EntitySet Name="Borda_Subject_List" EntityType="DBBordaAlgorithmModel.Borda_Subject_List" />
+    <EntitySet Name="Borda_Point" EntityType="DBBordaAlgorithmModel.Borda_Point" />
+    <EntitySet Name="Data_Survey" EntityType="DBBordaAlgorithmModel.Data_Survey" />
+  </EntityContainer>
+  <EntityType Name="Career_List">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Career_Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Career_Desc" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Create_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Create_Date" Type="DateTime" Precision="3" />
+    <Property Name="Edit_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Edit_Date" Type="DateTime" Precision="3" />
+    <Property Name="Delete_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Delete_Date" Type="DateTime" Precision="3" />
+    <Property Name="Is_Deleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="User">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Longname" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Is_Admin" Type="Boolean" />
+    <Property Name="Career" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Last_Login" Type="DateTime" Precision="3" />
+    <Property Name="Create_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Create_Date" Type="DateTime" Precision="3" />
+    <Property Name="Edit_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Edit_Date" Type="DateTime" Precision="3" />
+    <Property Name="Delete_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Delete_Date" Type="DateTime" Precision="3" />
+    <Property Name="Is_Deleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Laptop">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Laptop_Brand" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Laptop_Type" Type="String" Nullable="false" MaxLength="350" FixedLength="false" Unicode="false" />
+    <Property Name="LCD_Height" Type="Double" Nullable="false" />
+    <Property Name="LCD_Width" Type="Double" Nullable="false" />
+    <Property Name="Ram_Capacity" Type="Double" Nullable="false" />
+    <Property Name="Memory_Capacity" Type="Double" Nullable="false" />
+    <Property Name="Processor_Speed" Type="Double" Nullable="false" />
+    <Property Name="Processor_UOM" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Currency" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <Property Name="Laptop_Image" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Remarks" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="Create_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Create_Date" Type="DateTime" Precision="3" />
+    <Property Name="Edit_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Edit_Date" Type="DateTime" Precision="3" />
+    <Property Name="Delete_By" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Delete_Date" Type="DateTime" Precision="3" />
+    <Property Name="Is_Deleted" Type="Boolean" />
+  </EntityType>
+  <EntityType Name="Laptops_Brand_List">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Brand" Type="String" Nullable="false" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Borda_Subject_List">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Subject_Desc" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Borda_Point">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Main_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Second_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Third_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Fourth_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Fifth_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="Data_Survey">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="Main_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Second_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Third_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Fourth_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Fifth_Priority" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+</Schema>

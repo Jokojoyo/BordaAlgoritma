@@ -1,0 +1,140 @@
+﻿@{
+    ViewBag.Title = "Catalog";
+    var method = ViewBag.method;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <style>
+        .widthSet {
+            max-width: 250px;
+        }
+
+        .heightSet {
+            max-height: 140px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" style='width:1400px;overflow-y:auto'>
+        <div class="row" id="dvRows" style="width: 1500px; height:1000px">
+            <div class="body__ col-md-3 col-sm-6 card" style="padding-left: 15px;margin-top:2%;">
+                <div class="blog_post">
+                    <div class="image_box">
+                        <img id="imgDetails" class="widthSet heightSet" src="" alt="" style="margin-top:2%;">
+                    </div>
+                    <div class="info IRANSans">
+                        <span class="category IRANSans">
+                            <i class="fa fa-hashtag"></i>
+                            <b><span id="lblId" style="font-size:16px"></span></b>
+                        </span>
+                        <span class="title " style="display: block;margin-top: 20px;text-align: left;">
+                            <label class="IRANSans" href="#">
+                                <i class="fa fa-tags"></i>
+                                <span id="lblRemarks"></span>
+                            </label>
+                        </span>
+                        <span class="title " style="display: block;margin-top: 20px;text-align: left;">
+                            <label class="IRANSans" href="#">
+                                <i class="fa fa-tags"></i>
+                                <span id="lblPrice"></span>
+                            </label>
+                        </span>
+                        <span class="title " style="display: block;margin-top: 5px;text-align: left;">
+                            <label class="IRANSans" href="#">
+                                <i class="fa fa-desktop"></i>
+                                <span id="lblLCD"></span>
+                            </label>
+                        </span>
+                        <span class="title " style="display: block;margin-top: 5px;text-align: left;">
+                            <label class="IRANSans" href="#">
+                                <i class="fa fa-hdd-o"></i>
+                                <span id="lblHDD"></span>
+                            </label>
+                        </span>
+                        <span class="title " style="display: block;margin-top: 5px;text-align: left;">
+                            <label class="IRANSans" href="#">
+                                <i class="fa fa-microchip"></i>
+                                <span id="lblCPU"></span>
+                            </label>
+                        </span>
+                        <span class="title " style="display: block;margin-top: 5px;text-align: left;">
+                            <label class="IRANSans" href="#">
+                                <i class="fa fa-qrcode"></i>
+                                <span id="lblRAM"></span>
+                            </label>
+                        </span>
+                        <hr />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="Pager"></div>
+        </div>
+    </div>
+    <script src="~/Scripts/ASPSnippets_Pager.min.js"></script>
+    <script type="text/javascript">
+        var pageNumber = 1;
+        $(function () {
+            GetLaptops(1);
+        });
+        $("body").on("click", ".Pager .page", function () {
+            GetLaptops(parseInt($(this).attr('page')));
+            pageNumber = parseInt($(this).attr('page'));
+        });
+        function GetLaptops(pageIndex) {
+            $.ajax({
+                type: "POST",
+                url: "/Catalog/AjaxMethod",
+                data: "{pageIndex: " + pageIndex + ", method:'@method'}",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: OnSuccess,
+                failure: function (response) {
+                    alert(response.d);
+                },
+                error: function (response) {
+                    alert(response.d);
+                }
+            });
+        };
+        function OnSuccess(response) {
+            var model = response;
+            var row = $("#dvRows .body__:first-child").clone(true);
+            $("#dvRows .body__").remove();
+
+            var index = (pageNumber - 1) * 8 + 1;
+            $.each(model.LaptopsView, function () {
+                debugger;
+                var laptop = this;
+                $(row).find('#imgDetails').attr("src", "/UploadedFile/" + laptop.Laptop_Image);
+                $(row).find('#lblId').html(index + " [" + laptop.Laptop_Brand + '] ' + laptop.Laptop_Type);
+                $(row).find('#lblRemarks').html('Detail : ' + laptop.Remarks);
+                $(row).find('#lblPrice').html('Price : '+ laptop.Price.toLocaleString('en-US') + " " + laptop.Currency);
+                $(row).find('#lblLCD').html('Display : (' + laptop.LCD_Height.toLocaleString('en-US') + ' px X ' + laptop.LCD_Width.toLocaleString('en-US')+'px )');
+                $(row).find('#lblHDD').html('HDD : ' + laptop.Memory_Capacity + ' GB');
+                $(row).find('#lblCPU').html('CPU : ' + laptop.Processor_Speed + ' ' + laptop.Processor_UOM);
+                $(row).find('#lblRAM').html('RAM : ' + laptop.Ram_Capacity + ' GB');
+
+                $("#dvRows").append(row);
+                row = $("#dvRows .body__:last-child").clone(true);
+                index++;
+            });
+
+            $(".Pager").ASPSnippets_Pager({
+                ActiveCssClass: "current",
+                PagerCssClass: "pager",
+                PageIndex: model.PageIndex,
+                PageSize: model.PageSize,
+                RecordCount: model.RecordCount
+            });
+        };
+    </script>
+</body>
+</html>

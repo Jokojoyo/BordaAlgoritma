@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="DBBordaAlgorithmModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Borda_Point">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Main_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Second_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Third_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Fourth_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Fifth_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Borda_Subject_List">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Subject_Desc" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Career_List">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Career_Name" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Career_Desc" Type="varchar(max)" Nullable="false" />
+    <Property Name="Create_By" Type="varchar" MaxLength="100" />
+    <Property Name="Create_Date" Type="datetime" />
+    <Property Name="Edit_By" Type="varchar" MaxLength="100" />
+    <Property Name="Edit_Date" Type="datetime" />
+    <Property Name="Delete_By" Type="varchar" MaxLength="100" />
+    <Property Name="Delete_Date" Type="datetime" />
+    <Property Name="Is_Deleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="Data_Survey">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Main_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Second_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Third_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Fourth_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Fifth_Priority" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Laptops">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Laptop_Brand" Type="varchar" MaxLength="250" Nullable="false" />
+    <Property Name="Laptop_Type" Type="varchar" MaxLength="350" Nullable="false" />
+    <Property Name="LCD_Height" Type="float" Nullable="false" />
+    <Property Name="LCD_Width" Type="float" Nullable="false" />
+    <Property Name="Ram_Capacity" Type="float" Nullable="false" />
+    <Property Name="Memory_Capacity" Type="float" Nullable="false" />
+    <Property Name="Processor_Speed" Type="float" Nullable="false" />
+    <Property Name="Processor_UOM" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Currency" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Price" Type="float" Nullable="false" />
+    <Property Name="Laptop_Image" Type="varchar(max)" Nullable="false" />
+    <Property Name="Remarks" Type="varchar(max)" />
+    <Property Name="Create_By" Type="varchar" MaxLength="100" />
+    <Property Name="Create_Date" Type="datetime" />
+    <Property Name="Edit_By" Type="varchar" MaxLength="100" />
+    <Property Name="Edit_Date" Type="datetime" />
+    <Property Name="Delete_By" Type="varchar" MaxLength="100" />
+    <Property Name="Delete_Date" Type="datetime" />
+    <Property Name="Is_Deleted" Type="bit" />
+  </EntityType>
+  <EntityType Name="Laptops_Brand_List">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Brand" Type="varchar" MaxLength="250" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Uniq" />
+    </Key>
+    <Property Name="Uniq" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Username" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="Longname" Type="varchar" MaxLength="200" Nullable="false" />
+    <Property Name="Is_Admin" Type="bit" />
+    <Property Name="Career" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Password" Type="varchar(max)" Nullable="false" />
+    <Property Name="Last_Login" Type="datetime" />
+    <Property Name="Create_By" Type="varchar" MaxLength="100" />
+    <Property Name="Create_Date" Type="datetime" />
+    <Property Name="Edit_By" Type="varchar" MaxLength="100" />
+    <Property Name="Edit_Date" Type="datetime" />
+    <Property Name="Delete_By" Type="varchar" MaxLength="100" />
+    <Property Name="Delete_Date" Type="datetime" />
+    <Property Name="Is_Deleted" Type="bit" />
+  </EntityType>
+  <EntityContainer Name="DBBordaAlgorithmModelStoreContainer">
+    <EntitySet Name="Borda_Point" EntityType="Self.Borda_Point" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Borda_Subject_List" EntityType="Self.Borda_Subject_List" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Career_List" EntityType="Self.Career_List" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Data_Survey" EntityType="Self.Data_Survey" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Laptops" EntityType="Self.Laptops" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Laptops_Brand_List" EntityType="Self.Laptops_Brand_List" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

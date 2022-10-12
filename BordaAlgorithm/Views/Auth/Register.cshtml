@@ -1,0 +1,227 @@
+﻿@using BordaAlgorithm.ViewModels
+@model DataUserViewModel
+@{
+    ViewBag.Title = "Register";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link href="~/favicon.ico" rel="icon" type="image/ico" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    @Styles.Render("~/adminlte/css")
+    @Scripts.Render("~/adminlte/js")
+</head>
+<body class="hold-transition login-page" style="background: url('@Url.Content("~/Media/bg-login.jpg")'); background-size: inherit">
+    <div class="login-box" style="width: 400px !important; height: 300px !important">
+        <div class="login-box-body" style="background: rgba(255, 255, 255, 0.90);">
+            <div class="register-logo">
+                <img height="100px" width="100px" class="user-image" src="@Url.Content("~/Media/home-logo.png")" alt="Logo"><br>
+                <a href="#">
+                    <small style="font-size: 65%!important;"><b>Borda</b> Algorithm <sup style="font-size: 8pt; font-weight: bold" class="text-blue">BETA</sup></small>
+                </a>
+            </div>
+            @using (Html.BeginForm("Register", "Auth", FormMethod.Post))
+            {
+
+                @Html.HiddenFor(model => model.result)
+                <p class="text-red">@Html.ValidationMessage(Constants._ERROR)</p>
+                <div class="form-horizontal">
+                    <div class="col-sm-16">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Longname") && ViewData.ModelState["Longname"].Errors.Count > 0 ? "has-error" : "")">
+                            @Html.LabelFor(model => model.Longname, htmlAttributes: new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.Longname, new { htmlAttributes = new { @id = "bus_code", @class = "form-control input-sm", placeholder = "Thomas Junanta Ginting" } })
+                                @Html.ValidationMessageFor(model => model.Longname, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Username") && ViewData.ModelState["Username"].Errors.Count > 0 ? "has-error" : "")">
+                            @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control input-sm", placeholder = "junanta.thomas@gmail.com" } })
+                                @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Career") && ViewData.ModelState["Career"].Errors.Count > 0 ? "has-error" : "")">
+                            @Html.LabelFor(model => model.Career, htmlAttributes: new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.Career, new { htmlAttributes = new { @class = "form-control input-sm", placeholder = "Student" } })
+                                @Html.ValidationMessageFor(model => model.Career, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Password") && ViewData.ModelState["Password"].Errors.Count > 0 ? "has-error" : "")">
+                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control input-sm", @type = "password" } })
+                                @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("ConfirmPassword") && ViewData.ModelState["ConfirmPassword"].Errors.Count > 0 ? "has-error" : "")">
+                            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "control-label col-sm-2" })
+                            <div class="col-sm-10">
+                                @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { @class = "form-control input-sm password", @type = "password" } })
+                                @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("ConfirmPassword") && ViewData.ModelState["ConfirmPassword"].Errors.Count > 0 ? "has-error" : "")">
+                            <div class="col-sm-2">
+                            </div>
+                            <div class="col-sm-10">
+                                <input class="form-check-input" type="checkbox" id="ShowPassword">
+                                <label class="form-check-label" for="ShowPassword">Show Password</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" style="text-align: right">
+                    <button id="submit_" type="button" class="btn btn-sm btn-success btn-flat"><span class="fa fa-pencil"></span> <b>Create Account</b></button>
+                    <input id="submit" type="submit" value="Create Account" style="display:none" class="btn btn-success btn-flat" onclick="" />
+                </div>
+                <div class="form-group" style="text-align: left">
+                    <a type="text" style="font-style:italic;text-decoration:underline;font-size:12pt" href="@(Url.Action("Login", "Auth"))"> Back to Login Page</a>
+                </div>
+            }
+            <div class="clearfix"></div>
+        </div>
+    </div>
+    <script src="~/Scripts/bootbox.min.js"></script>
+    <script src="~/Scripts/bootbox.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            InitAjaxSelect2($("#Career"), '@Url.Action("CareerList", "Ajax")', function () { return {} }, -1);
+            $("#ShowPassword").change(function () {
+                var txtPassword = document.getElementById("Password");
+                var txtConfirmPassword = document.getElementById("ConfirmPassword");
+                if ($("#ShowPassword").is(":checked")) {
+                    txtPassword.setAttribute('type', 'text');
+                    txtConfirmPassword.setAttribute('type', 'text');
+                }
+                else {
+                    txtPassword.setAttribute('type', 'password');
+                    txtConfirmPassword.setAttribute('type', 'password');
+
+                }
+            });
+
+            $("#submit_").click(function () {
+                bootbox.confirm({
+                    size: "small",
+                    message: "Are you sure?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    centerVertical: true,
+                    callback: function (result) {
+                        var isRequired = false;
+                        if ($('#Password').val() == '') {
+                            $('span[data-valmsg-for="Password"]').html('This field is required!');
+                            isRequired = true;
+                        }
+
+                        if ($('#ConfirmPassword').val() == '') {
+                            $('span[data-valmsg-for="ConfirmPassword"]').html('This field is required!');
+                            isRequired = true;
+                        }
+
+
+                        if (result && !isRequired) {
+                            $("#submit_").prop("disabled", true);
+                            $("#submit").click();
+                        }
+                    }
+                }).find('.modal-content').css({
+                    'margin-top': function () {
+                        var w = $(window).height();
+                        var b = $(".modal-dialog").height();
+                        var h = (w - b) / 2;
+                        return h + "px";
+                    }
+                });;
+            });
+
+            var result = $("#result").val();
+            if (result) {
+                result = result == "OK" ? "Account has been Created! Go to Login Page to Continue!" : "<p class='text-danger'>" + result + "</p>";
+                bootbox.alert({
+                    message: result,
+                    size: 'small'
+                });
+
+                $("#Longname").val("");
+                $("#Username").val("");
+                $("#Career").val("");
+                $("#Password").val("");
+                $("#ConfirmPassword").val("");
+                $("#submit").attr("disabled", true);
+                $("#submit_").attr("disabled", true);
+            }
+        });
+
+        function InitAjaxSelect2(el, ajaxURL, dataCB, minLength) {
+            minLength = minLength || 3;
+            if (minLength == -1) minLength = 0;
+            el.select2({
+                placeholder: "- Please select -",
+                minimumInputLength: minLength,
+                allowClear: true,
+                ajax: {
+                    url: ajaxURL,
+                    width: 'resolve',
+                    data: function (params) {
+                        return $.extend({ q: params }, (dataCB()))
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.items
+                        };
+                    },
+                    minimumInputLength: minLength,
+                    width: 'resolve'
+                },
+                initSelection: function (element, callback) {
+                    var id = $(element).val();
+                    if (id) {
+                        ajaxData = $.extend({ q: id, init: true }, (dataCB()))
+                        $.ajax({
+                            url: ajaxURL,
+                            type: "POST",
+                            datatype: "json",
+                            contentType: "application/json; charset=utf-8",
+                            data: JSON.stringify(ajaxData),
+                            success: function (response) {
+                                var data = response.items;
+                                if (data) {
+                                    result = data;
+                                }
+                            },
+                            fail: function () {
+                            }
+                        }).done(function (data) {
+                            if (data && data.items && data.items.length > 0)
+                                callback(data.items[0]);
+                        });
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
+

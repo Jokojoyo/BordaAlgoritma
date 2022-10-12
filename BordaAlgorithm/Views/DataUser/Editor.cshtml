@@ -1,0 +1,178 @@
+﻿@model BordaAlgorithm.ViewModels.DataUserViewModel
+
+@using BordaAlgorithm.Utilities;
+
+@{
+    string mode = Model.mode;
+    ViewBag.Title = "[" + mode + "] Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+<div class="form-horizontal" id="mainForm">
+    @Html.HiddenFor(model => model.mode)
+    @Html.HiddenFor(model => model.Is_Admin)
+    @Html.HiddenFor(model => model.result)
+    <div class="col-md-12" style="margin:7px">
+        @Html.ValidationMessage(Constants._ERROR, new { @class = "text-danger" })
+    </div>
+    <div class="form-horizontal">
+        <div class="col-sm-12">
+            @Html.AntiForgeryToken()
+            <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Longname") && ViewData.ModelState["Longname"].Errors.Count > 0 ? "has-error" : "")">
+                @Html.LabelFor(model => model.Longname, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-3">
+                    @Html.EditorFor(model => model.Longname, new { htmlAttributes = new {@class = "form-control input-sm", placeholder = "Thomas Junanta Ginting" } })
+                    @Html.ValidationMessageFor(model => model.Longname, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("IsAdmin") && ViewData.ModelState["IsAdmin"].Errors.Count > 0 ? "has-error" : "")">
+                <div class="col-sm-2" style="text-align:right">
+                    <label>User is Admin?</label>
+                </div>
+                <div class="col-sm-3 form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="IsAdmin">
+                </div>
+            </div>
+
+            <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Username") && ViewData.ModelState["Username"].Errors.Count > 0 ? "has-error" : "")">
+                @Html.LabelFor(model => model.Username, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-3">
+                    @Html.EditorFor(model => model.Username, new { htmlAttributes = new { @class = "form-control input-sm", placeholder = "junanta.thomas@gmail.com" } })
+                    @Html.ValidationMessageFor(model => model.Username, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Career") && ViewData.ModelState["Career"].Errors.Count > 0 ? "has-error" : "")">
+                @Html.LabelFor(model => model.Career, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-3">
+                    @Html.EditorFor(model => model.Career, new { htmlAttributes = new { @class = "form-control input-sm", placeholder = "Student" } })
+                    @Html.ValidationMessageFor(model => model.Career, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Password") && ViewData.ModelState["Password"].Errors.Count > 0 ? "has-error" : "")">
+                @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-sm-2" })
+                <div class="col-sm-3">
+                    @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control input-sm", @type = "password" } })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group has-feedback">
+                <div class="col-sm-2">
+                </div>
+                <div class="col-sm-3">
+                    <input class="form-check-input" type="checkbox" id="ShowPassword">
+                    <label class="form-check-label" for="ShowPassword" style="font-size:8pt">Show Password</label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group" style="text-align: right">
+            <div class="col-md-5">
+                @if (mode != Constants.FORM_MODE_DELETE)
+                {
+                    <button id="submit_" type="button" class="btn btn-sm btn-success btn-flat">
+                        <span class="fa fa-pencil"></span> <b>SAVE</b>
+                    </button>
+                }
+                else
+                {
+                    <button id="submit_" type="button" class="btn btn-sm btn-danger btn-flat">
+                        <span class="fa fa-remove"></span> <b>DELETE</b>
+                    </button>
+                }
+                <div class="col-md-1">
+
+                </div>
+                <a href="Index" class="btn btn-sm btn-info btn-flat"><span class="glyphicon glyphicon-menu-left"></span><b>&nbsp;Back</b></a>
+                <input id="submit" type="submit" style="display:none" />
+            </div>
+        </div>
+    </div>
+
+</div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        if ($("#mode").val() == '@Constants.FORM_MODE_VIEW') {
+            $("#mainForm :input").attr("disabled", true);
+            $("#submit").attr("disabled", true);
+            $("#submit_").attr("disabled", true);
+        }
+        else if ($("#mode").val() == '@Constants.FORM_MODE_DELETE') {
+            $("#mainForm :input").not("#submit_, #submit").attr("readonly", true);
+            $("#status :input").attr("disabled", true);
+            $(".select2 :input").attr("disabled", true);
+            $("#submit_").val('Delete');
+        }
+        else if ($("#mode").val() == "@Constants.FORM_MODE_EDIT") {
+            if ($("#Is_Admin").val() == "True") {
+                $("#IsAdmin").prop('checked', true);
+            }
+        }
+
+        InitAjaxSelect2($("#Career"), '@Url.Action("CareerList", "Ajax")', function () { return {} }, -1);
+        $("#ShowPassword").change(function () {
+            var txtPassword = document.getElementById("Password");
+            var txtConfirmPassword = document.getElementById("ConfirmPassword");
+            if ($("#ShowPassword").is(":checked")) {
+                txtPassword.setAttribute('type', 'text');
+                txtConfirmPassword.setAttribute('type', 'text');
+            }
+            else {
+                txtPassword.setAttribute('type', 'password');
+                txtConfirmPassword.setAttribute('type', 'password');
+
+            }
+        });
+
+        $("#IsAdmin").change(function () {
+            if ($("#IsAdmin").is(":checked")) {
+                $("#Is_Admin").val(true);
+            }
+            else {
+                $("#Is_Admin").val(false);
+            }
+            $("#Is_Admin").trigger('change');
+        });
+
+        $("#submit_").click(function () {
+            bootbox.confirm({
+                size: "small",
+                message: "Are you sure?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                centerVertical: true,
+                callback: function (result) {
+                    if (result) {
+                        $("#submit_").prop("disabled", true);
+                        $("#submit").click();
+                    }
+                }
+            });
+        });
+        var result = $("#result").val();
+        if (result) {
+            result = result == "OK" ? "Data has been Saved!" : "<p class='text-danger'>" + result + "</p>";
+            bootbox.alert({
+                message: result,
+                size: 'small'
+            });
+            $("#mainForm :input").attr("disabled", true);
+            $("#submit").attr("disabled", true);
+            $("#submit_").attr("disabled", true);
+        }
+    });
+    /*Testing Commit*/
+</script>

@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DBBordaAlgorithmModelStoreContainer" CdmEntityContainer="DBBordaAlgorithmEntities">
+    <EntitySetMapping Name="Career_List">
+      <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Career_List">
+        <MappingFragment StoreEntitySet="Career_List">
+          <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+          <ScalarProperty Name="Delete_Date" ColumnName="Delete_Date" />
+          <ScalarProperty Name="Delete_By" ColumnName="Delete_By" />
+          <ScalarProperty Name="Edit_Date" ColumnName="Edit_Date" />
+          <ScalarProperty Name="Edit_By" ColumnName="Edit_By" />
+          <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+          <ScalarProperty Name="Create_By" ColumnName="Create_By" />
+          <ScalarProperty Name="Career_Desc" ColumnName="Career_Desc" />
+          <ScalarProperty Name="Career_Name" ColumnName="Career_Name" />
+          <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="DBBordaAlgorithmModel.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+          <ScalarProperty Name="Delete_Date" ColumnName="Delete_Date" />
+          <ScalarProperty Name="Delete_By" ColumnName="Delete_By" />
+          <ScalarProperty Name="Edit_Date" ColumnName="Edit_Date" />
+          <ScalarProperty Name="Edit_By" ColumnName="Edit_By" />
+          <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+          <ScalarProperty Name="Create_By" ColumnName="Create_By" />
+          <ScalarProperty Name="Last_Login" ColumnName="Last_Login" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="Career" ColumnName="Career" />
+          <ScalarProperty Name="Is_Admin" ColumnName="Is_Admin" />
+          <ScalarProperty Name="Longname" ColumnName="Longname" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Laptops">
+      <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Laptop">
+        <MappingFragment StoreEntitySet="Laptops">
+          <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+          <ScalarProperty Name="Delete_Date" ColumnName="Delete_Date" />
+          <ScalarProperty Name="Delete_By" ColumnName="Delete_By" />
+          <ScalarProperty Name="Edit_Date" ColumnName="Edit_Date" />
+          <ScalarProperty Name="Edit_By" ColumnName="Edit_By" />
+          <ScalarProperty Name="Create_Date" ColumnName="Create_Date" />
+          <ScalarProperty Name="Create_By" ColumnName="Create_By" />
+          <ScalarProperty Name="Remarks" ColumnName="Remarks" />
+          <ScalarProperty Name="Laptop_Image" ColumnName="Laptop_Image" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Currency" ColumnName="Currency" />
+          <ScalarProperty Name="Processor_UOM" ColumnName="Processor_UOM" />
+          <ScalarProperty Name="Processor_Speed" ColumnName="Processor_Speed" />
+          <ScalarProperty Name="Memory_Capacity" ColumnName="Memory_Capacity" />
+          <ScalarProperty Name="Ram_Capacity" ColumnName="Ram_Capacity" />
+          <ScalarProperty Name="LCD_Width" ColumnName="LCD_Width" />
+          <ScalarProperty Name="LCD_Height" ColumnName="LCD_Height" />
+          <ScalarProperty Name="Laptop_Type" ColumnName="Laptop_Type" />
+          <ScalarProperty Name="Laptop_Brand" ColumnName="Laptop_Brand" />
+          <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Laptops_Brand_List">
+      <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Laptops_Brand_List">
+        <MappingFragment StoreEntitySet="Laptops_Brand_List">
+          <ScalarProperty Name="Brand" ColumnName="Brand" />
+          <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Borda_Subject_List">
+      <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Borda_Subject_List">
+        <MappingFragment StoreEntitySet="Borda_Subject_List">
+          <ScalarProperty Name="Subject_Desc" ColumnName="Subject_Desc" />
+          <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Borda_Point">
+      <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Borda_Point">
+        <MappingFragment StoreEntitySet="Borda_Point">
+          <ScalarProperty Name="Fifth_Priority" ColumnName="Fifth_Priority" />
+          <ScalarProperty Name="Fourth_Priority" ColumnName="Fourth_Priority" />
+          <ScalarProperty Name="Third_Priority" ColumnName="Third_Priority" />
+          <ScalarProperty Name="Second_Priority" ColumnName="Second_Priority" />
+          <ScalarProperty Name="Main_Priority" ColumnName="Main_Priority" />
+          <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Data_Survey">
+      <EntityTypeMapping TypeName="DBBordaAlgorithmModel.Data_Survey">
+        <MappingFragment StoreEntitySet="Data_Survey">
+          <ScalarProperty Name="Fifth_Priority" ColumnName="Fifth_Priority" />
+          <ScalarProperty Name="Fourth_Priority" ColumnName="Fourth_Priority" />
+          <ScalarProperty Name="Third_Priority" ColumnName="Third_Priority" />
+          <ScalarProperty Name="Second_Priority" ColumnName="Second_Priority" />
+          <ScalarProperty Name="Main_Priority" ColumnName="Main_Priority" />
+          <ScalarProperty Name="Username" ColumnName="Username" />
+          <ScalarProperty Name="Uniq" ColumnName="Uniq" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

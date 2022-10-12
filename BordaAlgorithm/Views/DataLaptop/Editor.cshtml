@@ -1,0 +1,210 @@
+﻿@model BordaAlgorithm.ViewModels.DataLaptopViewModel
+
+@using BordaAlgorithm.Utilities;
+
+@{
+    string mode = Model.mode;
+    ViewBag.Title = "[" + mode + "] Laptops";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var tempURL = ViewBag.tempURL;
+}
+
+@*@using (Html.BeginForm())*@
+@using (Html.BeginForm("Editor", "DataLaptop", new { uniq = Model.Uniq, mode = Model.mode }, FormMethod.Post, new { id = "DataLaptopEditor", enctype = "multipart/form-data" }))
+{
+    <div class="form-horizontal" id="mainForm">
+        @Html.HiddenFor(model => model.mode)
+        @Html.HiddenFor(model => model.result)
+        <div class="col-md-12" style="margin:7px">
+            @Html.ValidationMessage(Constants._ERROR, new { @class = "text-danger" })
+        </div>
+        <div class="form-horizontal">
+            <div class="col-sm-12">
+                @Html.AntiForgeryToken()
+                <div style="display:none">
+                    @Html.LabelFor(model => model.Laptop_Image_Helper, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.Laptop_Image_Helper, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Laptop_Image_Helper, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Laptop_Brand") && ViewData.ModelState["Laptop_Brand"].Errors.Count > 0 ? "has-error" : "")">
+                    @Html.LabelFor(model => model.Laptop_Brand, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.Laptop_Brand, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Laptop_Brand, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Laptop_Type") && ViewData.ModelState["Laptop_Type"].Errors.Count > 0 ? "has-error" : "")">
+                    @Html.LabelFor(model => model.Laptop_Type, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-5">
+                        @Html.EditorFor(model => model.Laptop_Type, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Laptop_Type, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("LCD_Height") && ViewData.ModelState["LCD_Height"].Errors.Count > 0 ? "has-error" : "")">
+                    @Html.LabelFor(model => model.LCD_Height, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.LCD_Height, new { htmlAttributes = new { @class = "form-control input-sm num0" } })
+                        <span class="form-control-feedback">px</span>
+                        @Html.ValidationMessageFor(model => model.LCD_Height, "", new { @class = "text-danger" })
+                    </div>
+                    @Html.LabelFor(model => model.LCD_Width, htmlAttributes: new { @class = "control-label col-sm-1" })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.LCD_Width, new { htmlAttributes = new { @class = "form-control input-sm num0" } })
+                        <span class="form-control-feedback">px</span>
+                        @Html.ValidationMessageFor(model => model.LCD_Width, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Ram_Capacity") && ViewData.ModelState["Ram_Capacity"].Errors.Count > 0 ? "has-error" : "")">
+                    @Html.LabelFor(model => model.Ram_Capacity, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Ram_Capacity, new { htmlAttributes = new { @class = "form-control input-sm num0" } })
+                        <span class="form-control-feedback">GB</span>
+                        @Html.ValidationMessageFor(model => model.Ram_Capacity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Memory_Capacity") && ViewData.ModelState["Memory_Capacity"].Errors.Count > 0 ? "has-error" : "")">
+                    @Html.LabelFor(model => model.Memory_Capacity, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Memory_Capacity, new { htmlAttributes = new { @class = "form-control input-sm num0" } })
+                        <span class="form-control-feedback">GB</span>
+                        @Html.ValidationMessageFor(model => model.Memory_Capacity, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Processor_Speed") && ViewData.ModelState["Processor_Speed"].Errors.Count > 0 ? "has-error" : "")">
+                    @Html.LabelFor(model => model.Processor_Speed, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Processor_Speed, new { htmlAttributes = new { @class = "form-control input-sm num3" } })
+                        <span class="form-control-feedback">GHz</span>
+                        @Html.ValidationMessageFor(model => model.Processor_Speed, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Price") && ViewData.ModelState["Price"].Errors.Count > 0 ? "has-error" : "")">
+                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-2">
+                        @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control input-sm money" } })
+                        <span class="form-control-feedback">IDR</span>
+                        @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Laptop_Image, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-5">
+                        <input class="form-control" type="file" accept=".JPEG, .JPG, .PNG, .GIF, .JFIF" id="file" name="file" onchange="preview()">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Laptop_Image" class="form-label col-sm-2" style="text-align:right">Preview</label>
+                    <img id="frame" src="" class="img-fluid col-sm-5" />
+                </div>
+
+                <div class="form-group has-feedback @(ViewData.ModelState.Keys.Contains("Remarks") && ViewData.ModelState["Remarks"].Errors.Count > 0 ? "has-error" : "")">
+                    @Html.LabelFor(model => model.Remarks, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-5">
+                        @Html.TextAreaFor(model => model.Remarks, new { htmlAttributes = new { @class = "form-control col-sm-3" }, style = "width:380px;height:90px" })
+                        @Html.ValidationMessageFor(model => model.Remarks, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group" style="text-align: right">
+                <div class="col-sm-7">
+                    @if (mode != Constants.FORM_MODE_DELETE)
+                    {
+                        <button id="submit_" type="button" class="btn btn-sm btn-success btn-flat">
+                            <span class="fa fa-pencil"></span> <b>SAVE</b>
+                        </button>
+                    }
+                    else
+                    {
+                        <button id="submit_" type="button" class="btn btn-sm btn-danger btn-flat">
+                            <span class="fa fa-remove"></span> <b>DELETE</b>
+                        </button>
+                    }
+                    <a href="Index" class="btn btn-sm btn-info btn-flat"><span class="glyphicon glyphicon-menu-left"></span><b>&nbsp;Back</b></a>
+                    <input id="submit" type="submit" style="display:none" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitAjaxSelect2($("#Laptop_Brand"), '@Url.Action("LaptopBrandList", "Ajax")', function () { return {} }, -1);
+        if ('@tempURL' != "") {
+            $("#Laptop_Image_Helper").val('@tempURL');
+            document.getElementById("frame").src = $("#Laptop_Image_Helper").val();
+
+        }
+
+        if ($("#mode").val() == '@Constants.FORM_MODE_VIEW') {
+            $("#mainForm :input").attr("disabled", true);
+            $("#submit").attr("disabled", true);
+            $("#submit_").attr("disabled", true);
+        }
+        else if ($("#mode").val() == '@Constants.FORM_MODE_DELETE') {
+            $("#mainForm :input").not("#submit_, #submit").attr("readonly", true);
+            $("#status :input").attr("disabled", true);
+            $(".select2 :input").attr("disabled", true);
+            $("#submit_").val('Delete');
+        }
+        else if ($("#mode").val() == "@Constants.FORM_MODE_EDIT") {
+
+        }
+
+        $("#submit_").click(function () {
+            bootbox.confirm({
+                size: "small",
+                message: "Are you sure?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                centerVertical: true,
+                callback: function (result) {
+                    if (result) {
+                        $("#submit_").prop("disabled", true);
+                        $("#submit").click();
+                    }
+                }
+            });
+        });
+
+        var result = $("#result").val();
+        if (result) {
+            result = result == "OK" ? "Data has been Saved!" : "<p class='text-danger'>" + result + "</p>";
+            bootbox.alert({
+                message: result,
+                size: 'small'
+            });
+            $("#mainForm :input").attr("disabled", true);
+            $("#submit").attr("disabled", true);
+            $("#submit_").attr("disabled", true);
+        }
+    });
+    function preview() {
+        frame.src = URL.createObjectURL(event.target.files[0]);
+    }
+    function clearImage() {
+        document.getElementById('formFile').value = null;
+        frame.src = "";
+    }
+
+</script>

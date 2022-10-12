@@ -1,0 +1,93 @@
+﻿@model BordaAlgorithm.ViewModels.DataSurveyViewModel
+
+@using BordaAlgorithm.Utilities;
+
+@{
+    ViewBag.Title = "Survey";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal" id="mainForm">
+        @Html.HiddenFor(model => model.mode)
+        @Html.HiddenFor(model => model.Uniq)
+        @Html.HiddenFor(model => model.result)
+        <div class="col-md-12" style="margin:7px">
+            @Html.ValidationMessage(Constants._ERROR, new { @class = "text-danger" })
+        </div>
+        <div class="form-horizontal">
+            <div class="col-sm-12">
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Main_Priority, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.Main_Priority, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Main_Priority, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Second_Priority, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.Second_Priority, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Second_Priority, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Third_Priority, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.Third_Priority, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Third_Priority, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fourth_Priority, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.Fourth_Priority, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Fourth_Priority, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Fifth_Priority, htmlAttributes: new { @class = "control-label col-sm-2" })
+                    <div class="col-sm-3">
+                        @Html.EditorFor(model => model.Fifth_Priority, new { htmlAttributes = new { @class = "form-control input-sm" } })
+                        @Html.ValidationMessageFor(model => model.Fifth_Priority, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" style="text-align: right">
+                <div class="col-md-5">
+                    <button id="submit_" type="button" class="btn btn-sm btn-success btn-flat">
+                        <span class="fa fa-external-link"></span> <b>Get Recommendation!</b>
+                    </button>
+                    <input id="submit" type="submit" style="display:none" />
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        InitAjaxSelect2($("#Main_Priority"), '@Url.Action("BordaSubjectList", "Ajax")', function () { return {} }, -1);
+        InitAjaxSelect2($("#Second_Priority"), '@Url.Action("BordaSubjectList", "Ajax")', function () { return {} }, -1);
+        InitAjaxSelect2($("#Third_Priority"), '@Url.Action("BordaSubjectList", "Ajax")', function () { return {} }, -1);
+        InitAjaxSelect2($("#Fourth_Priority"), '@Url.Action("BordaSubjectList", "Ajax")', function () { return {} }, -1);
+        InitAjaxSelect2($("#Fifth_Priority"), '@Url.Action("BordaSubjectList", "Ajax")', function () { return {} }, -1);
+
+        $("#submit_").click(function () {
+            $("#submit").click();
+        });
+
+        var result = $("#result").val();
+        if (result) {
+            result = result == "OK" ? "Data has been Saved!" : "<p class='text-danger'>" + result + "</p>";
+            bootbox.alert({
+                message: result,
+                size: 'small'
+            });
+            $("#mainForm :input").attr("disabled", true);
+            $("#submit").attr("disabled", true);
+            $("#submit_").attr("disabled", true);
+        }
+    });
+</script>
